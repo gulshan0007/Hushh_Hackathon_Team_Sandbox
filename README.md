@@ -156,8 +156,8 @@ Explore full guides in `/docs`:
 
 ## 🏁 Built For: Hushh PDA Hackathon
 
-* 🎓 Hosted in collaboration with IIT Bombay
-* 💰 INR 1,00,000+ prize pool
+* 🎓 Hosted in collaboration with DAV Team and Analytics Club, IIT Bombay
+* 💰 INR 1,70,000+ prize pool
 * 👩‍💻 Real-world AI agents
 * 🚀 Build the infrastructure for programmable trust
 
