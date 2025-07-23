@@ -21,6 +21,14 @@ class ConsentScope(str, Enum):
     CUSTOM_TEMPORARY = "custom.temporary"
     CUSTOM_SESSION_WRITE = "custom.session.write"
 
+    # Calendar agent scopes
+    CALENDAR_READ = "calendar.read"
+    CALENDAR_WRITE = "calendar.write"
+    
+    # Gmail agent scopes
+    GMAIL_READ = "gmail.read"
+    GMAIL_WRITE = "gmail.write"
+
     @classmethod
     def list(cls):
         return [scope.value for scope in cls]

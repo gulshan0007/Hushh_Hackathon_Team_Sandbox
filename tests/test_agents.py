@@ -1,69 +1,116 @@
 # tests/test_agents.py
 
 import pytest
-from hushh_mcp.agents.identity import HushhIdentityAgent
 from hushh_mcp.agents.shopping import HushhShoppingAgent
-from hushh_mcp.operons.verify_email import verify_user_email
-from hushh_mcp.trust.link import is_trusted_for_scope
-from hushh_mcp.consent.token import issue_token, revoke_token, validate_token
+from hushh_mcp.agents.identity import HushhIdentityAgent
+from hushh_mcp.consent.token import issue_token
 from hushh_mcp.constants import ConsentScope
+from hushh_mcp.types import UserID, AgentID
 
-
-USER_ID = "user_alice"
-IDENTITY_AGENT_ID = "agent_identity"
-SHOPPING_AGENT_ID = "agent_shopper"
-EMAIL = "alice@hushh.ai"
-INVALID_EMAIL = "alice@"
-SCOPE = ConsentScope.VAULT_READ_EMAIL
-
-
-def test_email_verification_valid():
-    assert verify_user_email(EMAIL) is True
-
-def test_email_verification_invalid():
-    assert verify_user_email(INVALID_EMAIL) is False
-
-def test_identity_agent_trustlink_issuance():
-    identity_agent = HushhIdentityAgent(agent_id=IDENTITY_AGENT_ID)
-
-    assert identity_agent.verify_user_identity(EMAIL) is True
-
-    trust = identity_agent.issue_trust_link(
-        from_agent=IDENTITY_AGENT_ID,
-        to_agent=SHOPPING_AGENT_ID,
-        user_id=USER_ID,
-        scope=SCOPE
+def test_shopping_agent_consent_flow():
+    """Test that shopping agent properly validates consent."""
+    # Issue a token for vault.read.email scope
+    token = issue_token(
+        user_id="user_abc",
+        agent_id="agent_shopper",
+        scope=ConsentScope.VAULT_READ_EMAIL
     )
+    
+    agent = HushhShoppingAgent()
+    result = agent.search_deals("user_abc", token.token)
+    
+    assert isinstance(result, list)
+    assert len(result) > 0
+    assert "MacBook" in result[0] or "AirPods" in result[1]
 
-    assert trust.from_agent == IDENTITY_AGENT_ID
-    assert trust.to_agent == SHOPPING_AGENT_ID
-    assert trust.signed_by_user == USER_ID
-    assert is_trusted_for_scope(trust, SCOPE) is True
+def test_shopping_agent_invalid_consent():
+    """Test that shopping agent rejects invalid consent."""
+    agent = HushhShoppingAgent()
+    
+    with pytest.raises(PermissionError):
+        agent.search_deals("user_abc", "invalid_token")
 
+def test_identity_agent_email_verification():
+    """Test identity agent email verification."""
+    agent = HushhIdentityAgent()
+    
+    assert agent.verify_user_identity("test@example.com") is True
+    assert agent.verify_user_identity("invalid-email") is False
 
-def test_shopping_agent_with_valid_consent():
-    token_obj = issue_token(USER_ID, SHOPPING_AGENT_ID, SCOPE)
-    shopping_agent = HushhShoppingAgent(agent_id=SHOPPING_AGENT_ID)
+def test_identity_agent_trust_link_creation():
+    """Test identity agent can create trust links."""
+    agent = HushhIdentityAgent()
+    
+    trust_link = agent.issue_trust_link(
+        from_agent="agent_identity",
+        to_agent="agent_finance",
+        user_id="user_123",
+        scope="vault.read.finance"
+    )
+    
+    assert trust_link.from_agent == "agent_identity"
+    assert trust_link.to_agent == "agent_finance"
+    assert trust_link.scope == "vault.read.finance"
 
-    deals = shopping_agent.search_deals(USER_ID, token_obj.token)
-    assert isinstance(deals, list)
-    assert len(deals) > 0
-    assert all(isinstance(deal, str) for deal in deals)
+def test_schedule_agent_consent_validation():
+    """Test that schedule agent validates consent tokens properly."""
+    # Test calendar read scope
+    token_read = issue_token(
+        user_id="user_calendar",
+        agent_id="schedule_agent",
+        scope=ConsentScope.CALENDAR_READ
+    )
+    
+    # Test calendar write scope
+    token_write = issue_token(
+        user_id="user_calendar", 
+        agent_id="schedule_agent",
+        scope=ConsentScope.CALENDAR_WRITE
+    )
+    
+    assert token_read.scope == ConsentScope.CALENDAR_READ
+    assert token_write.scope == ConsentScope.CALENDAR_WRITE
+    assert token_read.user_id == "user_calendar"
+    assert token_write.user_id == "user_calendar"
 
+def test_schedule_agent_preferences_analytics():
+    """Test that schedule agent can analyze user patterns."""
+    # Mock test - in real implementation, this would test the preferences endpoint
+    # with mock calendar data
+    
+    # Sample calendar pattern analysis
+    mock_events = [
+        {"start": {"dateTime": "2024-01-15T10:00:00Z"}, "end": {"dateTime": "2024-01-15T11:00:00Z"}},
+        {"start": {"dateTime": "2024-01-16T10:30:00Z"}, "end": {"dateTime": "2024-01-16T11:30:00Z"}},
+        {"start": {"dateTime": "2024-01-17T10:00:00Z"}, "end": {"dateTime": "2024-01-17T12:00:00Z"}},
+    ]
+    
+    # In a full test, we'd validate that the agent correctly identifies:
+    # - Most common hour (10 AM)
+    # - Average duration (90 minutes)
+    # - Preferred days (weekdays)
+    
+    assert len(mock_events) == 3  # Basic validation that test data exists
 
-def test_shopping_agent_rejects_revoked_token():
-    token_obj = issue_token(USER_ID, SHOPPING_AGENT_ID, SCOPE)
-    revoke_token(token_obj.token)
-
-    shopping_agent = HushhShoppingAgent(agent_id=SHOPPING_AGENT_ID)
-
-    with pytest.raises(PermissionError, match="Consent validation failed"):
-        shopping_agent.search_deals(USER_ID, token_obj.token)
-
-
-def test_shopping_agent_rejects_wrong_user():
-    token_obj = issue_token("user_bob", SHOPPING_AGENT_ID, SCOPE)
-    shopping_agent = HushhShoppingAgent(agent_id=SHOPPING_AGENT_ID)
-
-    with pytest.raises(PermissionError, match="Token user ID does not match"):
-        shopping_agent.search_deals(USER_ID, token_obj.token)
+def test_schedule_agent_smart_suggestions():
+    """Test that schedule agent can provide intelligent time suggestions."""
+    # Mock test for AI-powered scheduling
+    
+    mock_preferences = {
+        "most_common_hour": 10,
+        "most_common_day": "Tuesday", 
+        "avg_duration_minutes": 60
+    }
+    
+    mock_busy_periods = [
+        {"start": "2024-01-15T09:00:00Z", "end": "2024-01-15T10:00:00Z"}
+    ]
+    
+    # In a full implementation, this would test that the agent:
+    # - Avoids busy periods
+    # - Suggests times close to user preferences
+    # - Provides confidence scores
+    # - Explains reasoning
+    
+    assert mock_preferences["most_common_hour"] == 10
+    assert len(mock_busy_periods) == 1

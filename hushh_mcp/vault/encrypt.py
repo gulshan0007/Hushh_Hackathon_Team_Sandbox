@@ -17,7 +17,14 @@ ALGORITHM_NAME = "aes-256-gcm"
 
 def encrypt_data(plaintext: str, key_hex: str) -> EncryptedPayload:
     try:
-        key = bytes.fromhex(key_hex)
+        # Try to parse as hex first, if that fails, use as regular string and hash it
+        try:
+            key = bytes.fromhex(key_hex)
+        except ValueError:
+            # If not hex, convert string to 32-byte key using SHA-256
+            import hashlib
+            key = hashlib.sha256(key_hex.encode('utf-8')).digest()
+        
         iv = os.urandom(IV_LENGTH)
         backend = default_backend()
 
@@ -41,7 +48,14 @@ def encrypt_data(plaintext: str, key_hex: str) -> EncryptedPayload:
 
 def decrypt_data(payload: EncryptedPayload, key_hex: str) -> str:
     try:
-        key = bytes.fromhex(key_hex)
+        # Try to parse as hex first, if that fails, use as regular string and hash it
+        try:
+            key = bytes.fromhex(key_hex)
+        except ValueError:
+            # If not hex, convert string to 32-byte key using SHA-256
+            import hashlib
+            key = hashlib.sha256(key_hex.encode('utf-8')).digest()
+        
         iv = base64.b64decode(payload.iv)
         tag = base64.b64decode(payload.tag)
         ciphertext = base64.b64decode(payload.ciphertext)
