@@ -44,8 +44,8 @@ if __name__ == "__main__":
     print(f"📧 Gmail OAuth endpoint: http://{HOST}:{PORT}/inbox-agent/auth/gmail")
     print(f"📊 Health check: http://{HOST}:{PORT}/inbox-agent/health")
     print(f"📚 API docs: http://{HOST}:{PORT}/docs")
-    print(f"🌐 Ngrok URL: https://6064e54e2e4d.ngrok-free.app")
-    print(f"🔗 Gmail OAuth: https://6064e54e2e4d.ngrok-free.app/inbox-agent/auth/gmail")
+    print(f"🌐 Ngrok URL: https://bdcfc7c11594.ngrok-free.app")
+    print(f"🔗 Gmail OAuth: https://bdcfc7c11594.ngrok-free.app/inbox-agent/auth/gmail")
     
     uvicorn.run(
         "run_inbox_agent:app",
