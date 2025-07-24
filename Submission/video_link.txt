@@ -1,0 +1,10 @@
+Demo Video for Sprint 1
+
+Watch the screen recording here:
+https://drive.google.com/file/d/136RGnLMPzVjL_MhWxp-57gOEjod6LoOp/view?usp=sharing
+
+
+This video demonstrates:
+- Connecting Google Calendar and Gmail
+- AI-powered scheduling and insights
+- Mobile app UI and flows

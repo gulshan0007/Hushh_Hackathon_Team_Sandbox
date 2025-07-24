@@ -37,8 +37,8 @@ if __name__ == "__main__":
     print("📅 Calendar OAuth endpoint: http://0.0.0.0:8001/schedule-agent/auth/google")
     print("📊 Health check: http://0.0.0.0:8001/health")
     print("📚 API docs: http://0.0.0.0:8001/docs")
-    print("🌐 Ngrok URL: https://bdcfc7c11594.ngrok-free.app")
-    print("🔗 Calendar OAuth: https://bdcfc7c11594.ngrok-free.app/schedule-agent/auth/google")
+    print("🌐 Ngrok URL: https://5f9cda3742ae.ngrok-free.app")
+    print("🔗 Calendar OAuth: https://5f9cda3742ae.ngrok-free.app/schedule-agent/auth/google")
     
     uvicorn.run(
         "run_schedule_agent:app",

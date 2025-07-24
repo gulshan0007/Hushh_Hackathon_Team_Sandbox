@@ -71,7 +71,7 @@ async def start_calendar_auth(user_id: str):
                 "client_secret": os.getenv('GOOGLE_CALENDAR_CLIENT_SECRET'),
                 "auth_uri": "https://accounts.google.com/o/oauth2/auth",
                 "token_uri": "https://oauth2.googleapis.com/token",
-                "redirect_uris": [f"{os.getenv('BACKEND_URL', 'https://bdcfc7c11594.ngrok-free.app')}/schedule-agent/auth/google/callback"]
+                "redirect_uris": [f"{os.getenv('BACKEND_URL', 'https://5f9cda3742ae.ngrok-free.app')}/schedule-agent/auth/google/callback"]
             }
         }
         
@@ -110,7 +110,7 @@ async def calendar_callback(code: str, state: str):
                 "client_secret": os.getenv('GOOGLE_CALENDAR_CLIENT_SECRET'),
                 "auth_uri": "https://accounts.google.com/o/oauth2/auth",
                 "token_uri": "https://oauth2.googleapis.com/token",
-                "redirect_uris": [f"{os.getenv('BACKEND_URL', 'https://bdcfc7c11594.ngrok-free.app')}/schedule-agent/auth/google/callback"]
+                "redirect_uris": [f"{os.getenv('BACKEND_URL', 'https://5f9cda3742ae.ngrok-free.app')}/schedule-agent/auth/google/callback"]
             }
         }
         
