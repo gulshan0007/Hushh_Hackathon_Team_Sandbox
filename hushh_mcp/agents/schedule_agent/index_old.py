@@ -85,52 +85,29 @@ class ScheduleAgent:
                 # Provide demo data when credentials are not available
                 self.logger.info("📅 Providing demo meeting suggestions (complete OAuth to see real suggestions)")
                 from datetime import datetime, timedelta
-                import pytz
                 
-                # Get IST timezone
-                ist = pytz.timezone('Asia/Kolkata')
-                now = datetime.now(ist)
+                now = datetime.now()
+                # Suggest next available time slot
+                next_available = now + timedelta(hours=2)
+                next_available = next_available.replace(minute=0, second=0, microsecond=0)
                 
-                # Set business hours: 9 AM to 6 PM IST
-                start_hour = 9
-                end_hour = 18
-                
-                # Get today's date in IST
-                today = now.replace(hour=start_hour, minute=0, second=0, microsecond=0)
-                end_time = today.replace(hour=end_hour, minute=0, second=0, microsecond=0)
-                
-                # If it's past 6 PM, show slots for tomorrow
-                if now.hour >= end_hour:
-                    today = today + timedelta(days=1)
-                    end_time = end_time + timedelta(days=1)
-                
-                # Generate demo available slots (assuming 2 meetings are already scheduled)
-                # Let's say meetings are at 10 AM and 2 PM, so free slots are 9 AM, 11 AM, 12 PM, 3 PM, 4 PM, 5 PM
-                demo_times = []
-                current_slot = today
-                
-                while current_slot < end_time:
-                    slot_end = current_slot + timedelta(hours=1)
-                    
-                    # Check if this slot is in the future (for today)
-                    if current_slot > now or today.date() > now.date():
-                        # Demo: Assume meetings at 10 AM and 2 PM, so these slots are free
-                        hour = current_slot.hour
-                        if hour not in [10, 14]:  # 10 AM and 2 PM are busy
-                            demo_times.append({
-                                'start': current_slot.isoformat(),
-                                'end': slot_end.isoformat(),
-                                'available': True,
-                                'formatted_time': current_slot.strftime("%I:%M %p"),
-                                'duration_minutes': 60
-                            })
-                    
-                    current_slot = slot_end
+                demo_times = [
+                    {
+                        'start': next_available.isoformat(),
+                        'end': (next_available + timedelta(minutes=duration)).isoformat()
+                    },
+                    {
+                        'start': (next_available + timedelta(hours=1)).isoformat(),
+                        'end': (next_available + timedelta(hours=1, minutes=duration)).isoformat()
+                    },
+                    {
+                        'start': (next_available + timedelta(days=1, hours=10)).isoformat(),
+                        'end': (next_available + timedelta(days=1, hours=10, minutes=duration)).isoformat()
+                    }
+                ]
                 
                 return {
                     "available_times": demo_times,
-                    "total_free_slots": len(demo_times),
-                    "business_hours": f"{start_hour}:00 AM - {end_hour}:00 PM IST",
                     "demo_mode": True,
                     "message": "Complete Google Calendar OAuth to get real meeting suggestions"
                 }

@@ -31,7 +31,7 @@ GMAIL_CLIENT_SECRET = GOOGLE_GMAIL_CLIENT_SECRET
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY', '')
 
 # Backend URL
-BACKEND_URL = os.getenv('BACKEND_URL', 'https://5f9cda3742ae.ngrok-free.app')
+BACKEND_URL = os.getenv('BACKEND_URL', 'https://5ef39224041b.ngrok-free.app')
 
 # Agent Master Key for encryption
 AGENT_MASTER_KEY = os.getenv('AGENT_MASTER_KEY', 'default-key-change-in-production')

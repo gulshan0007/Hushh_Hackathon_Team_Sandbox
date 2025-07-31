@@ -39,24 +39,24 @@ class EmailAIFeatures:
             style_instruction = style_instructions.get(style, style_instructions['professional'])
             
             prompt = f"""
-You are an AI assistant helping to compose email replies. Please read the following email carefully and generate a thoughtful, appropriate response.
+                You are an AI assistant helping to compose email replies. Please read the following email carefully and generate a thoughtful, appropriate response.
 
-Original Email:
-Subject: {subject}
-From: {sender}
-Content: {body}
+                Original Email:
+                Subject: {subject}
+                From: {sender}
+                Content: {body}
 
-Instructions:
-- {style_instruction}
-- Address the main points and questions in the original email
-- Be helpful and constructive
-- Match the tone appropriately
-- Do not include email headers (To:, From:, Subject:) in your response
-- Generate only the body content of the reply
-- Make the response complete and comprehensive - do not truncate or summarize
+                Instructions:
+                - {style_instruction}
+                - Address the main points and questions in the original email
+                - Be helpful and constructive
+                - Match the tone appropriately
+                - Do not include email headers (To:, From:, Subject:) in your response
+                - Generate only the body content of the reply
+                - Make the response complete and comprehensive - do not truncate or summarize
 
-Please generate the complete reply:
-"""
+                Please generate the complete reply:
+                """
 
             # Use OpenAI to generate the reply with maximum token allowance
             if self.api_key:
