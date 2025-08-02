@@ -31,22 +31,31 @@ cp .env.example .env
 Create `.env` file in `consent-protocol/` directory:
 
 ```env
-# Google OAuth Credentials
-GOOGLE_CLIENT_ID=your_gmail_client_id
-GOOGLE_CLIENT_SECRET=your_gmail_client_secret
-GOOGLE_CALENDAR_CLIENT_ID=your_calendar_client_id
-GOOGLE_CALENDAR_CLIENT_SECRET=your_calendar_client_secret
+# Server port (optional if not running web server)
+PORT=3000
+# 🔐 HMAC signing key (64-character hex, 256-bit)
+SECRET_KEY=<secret-key>
+# 🔒 Vault AES encryption key (64-character hex, 256-bit)
+VAULT_ENCRYPTION_KEY=<VAULT_ENCRYPTION_KEY>
+# ⏱️ Expiration durations (milliseconds)
+DEFAULT_CONSENT_TOKEN_EXPIRY_MS=604800000
+DEFAULT_TRUST_LINK_EXPIRY_MS=2592000000
+# 🌱 App context
+ENVIRONMENT=development
+AGENT_ID=agent_hushh_local
+HUSHH_HACKATHON=enabled
+GOOGLE_CALENDAR_TOKEN=<your-calendar-token>
 
-# OpenAI API
-OPENAI_API_KEY=your_openai_api_key
+GOOGLE_CALENDAR_REFRESH_TOKEN=<your-refresh-token>
 
-# Backend Configuration
-BACKEND_URL=https://your-ngrok-url.ngrok-free.app
-AGENT_MASTER_KEY=your_encryption_key
+GOOGLE_CALENDAR_CLIENT_ID=<your-calendar-client-id>
+GOOGLE_CALENDAR_CLIENT_SECRET=<your-calendar-client-secret>
 
-# Optional: Google Calendar Tokens (for demo)
-GOOGLE_CALENDAR_TOKEN=your_calendar_token
-GOOGLE_CALENDAR_REFRESH_TOKEN=your_refresh_token
+GOOGLE_REDIRECT_URI=https://<your-ngrok-url>.ngrok-free.app/schedule-agent/auth/google/callback
+
+GOOGLE_GMAIL_CLIENT_ID=<your-gmail-client-id>
+GOOGLE_GMAIL_CLIENT_SECRET=<your-gmail-client-secret>
+OPENAI_API_KEY=<your-openai-api-key>
 ```
 
 ### 3. Setup Google Cloud Console
