@@ -6,6 +6,114 @@ Welcome to the official Python implementation of the **HushhMCP** — a programm
 
 ---
 
+## 🚀 Quick Setup Guide
+
+### Prerequisites
+- **Python 3.9+**
+- **Node.js 16+**
+- **React Native CLI**
+- **Google Cloud Console account** (for OAuth credentials)
+
+### 1. Clone and Setup Backend
+```bash
+git clone https://github.com/gulshan0007/Hushh_Hackathon_Team_Sandbox.git
+cd consent-protocol
+
+# Install Python dependencies
+pip install -r requirements.txt
+
+# Set up environment variables
+cp .env.example .env
+# Edit .env with your API keys (see Configuration section below)
+```
+
+### 2. Configure Environment Variables
+Create `.env` file in `consent-protocol/` directory:
+
+```env
+# Google OAuth Credentials
+GOOGLE_CLIENT_ID=your_gmail_client_id
+GOOGLE_CLIENT_SECRET=your_gmail_client_secret
+GOOGLE_CALENDAR_CLIENT_ID=your_calendar_client_id
+GOOGLE_CALENDAR_CLIENT_SECRET=your_calendar_client_secret
+
+# OpenAI API
+OPENAI_API_KEY=your_openai_api_key
+
+# Backend Configuration
+BACKEND_URL=https://your-ngrok-url.ngrok-free.app
+AGENT_MASTER_KEY=your_encryption_key
+
+# Optional: Google Calendar Tokens (for demo)
+GOOGLE_CALENDAR_TOKEN=your_calendar_token
+GOOGLE_CALENDAR_REFRESH_TOKEN=your_refresh_token
+```
+
+### 3. Setup Google Cloud Console
+1. **Create a Google Cloud Project**
+2. **Enable Gmail API and Google Calendar API**
+3. **Create OAuth 2.0 credentials** for both Gmail and Calendar
+4. **Add authorized redirect URIs:**
+   - `https://your-ngrok-url.ngrok-free.app/inbox-agent/auth/gmail/callback`
+   - `https://your-ngrok-url.ngrok-free.app/schedule-agent/auth/google/callback`
+
+### 4. Run Backend Server
+```bash
+# Start ngrok for development tunneling
+ngrok http 8000
+
+# Update BACKEND_URL in .env with ngrok URL
+# Run the unified agent server
+python run_unified_agent.py
+```
+
+### 5. Setup Mobile App
+```bash
+cd PDAMobileApp
+
+# Install Node.js dependencies
+npm install
+
+# Start the react-native development server
+npx react-native run-android
+# or for iOS: npx react-native run-ios
+```
+
+### 6. Test the System
+```bash
+# Run backend tests
+cd consent-protocol
+python -m pytest tests/ -v
+
+# Run demo walkthrough
+python demo_walkthrough.py
+```
+
+---
+
+## 🧪 Key Demo Features
+
+### **Calendar Agent Demo:**
+1. **Connect Google Calendar** via OAuth2
+2. **View Events** from both local and Google calendars
+3. **Create Smart Events** with AI time suggestions
+4. **Pattern Learning** - see your scheduling preferences
+5. **Conflict Detection** - AI suggests optimal times
+
+### **Inbox Agent Demo:**
+1. **Connect Gmail** via OAuth2
+2. **Browse Inbox** with infinite scrolling
+3. **AI Analysis** - get summaries and insights
+4. **Smart Reply** - generate professional responses
+5. **Batch Operations** - analyze multiple emails
+
+### **Cross-Agent Communication:**
+1. **Email to Calendar** - convert email threads to events
+2. **Consent Validation** - every action requires tokens
+3. **Privacy Controls** - revoke access anytime
+
+---
+
 ## 🚩 Implemented Agents & Hackathon Compliance
 
 This repository includes two Personal Data Agents (PDAs) built for the Hushh PDA Hackathon, each demonstrating cryptographic consent, privacy, and modularity:

@@ -32,7 +32,7 @@ Welcome to our **consent-native Personal Data Agent (PDA) system** built for the
 
 ### 1. Clone the Repository
 ```bash
-git clone [YOUR_REPO_URL]
+git clone https://github.com/gulshan0007/Hushh_Hackathon_Team_Sandbox.git
 cd PDAMobileApp
 ```
 
@@ -260,8 +260,7 @@ This project was built for the Hushh PDA Hackathon. The architecture is designed
 ## 📞 Support
 
 For questions about this submission:
-- **Email:** [Your Email]
-- **GitHub Issues:** [Your Repo Issues]
+- **Email:** gulshan.iitb@gmail.com
 
 ---
 
