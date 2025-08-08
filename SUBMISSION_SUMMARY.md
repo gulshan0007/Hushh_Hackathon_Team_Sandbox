@@ -4,7 +4,7 @@
 
 **Team Name:** SANDBOX
 **Repository:** `https://github.com/gulshan0007/Hushh_Hackathon_Team_Sandbox.git`  
-**Demo Video:** [Google Drive Link]  
+  
 
 ---
 
@@ -100,7 +100,7 @@ We built a **consent-native Personal Data Agent (PDA) system** with two intellig
 - **Mobile-first design** with offline capabilities
 
 ### **5. AI-Powered Intelligence**
-- **GPT-4 integration** for email analysis and content generation
+- **GPT integration** for email analysis and content generation
 - **Pattern learning** for scheduling optimization
 - **Smart conflict detection** and resolution
 - **Professional content generation** capabilities
@@ -275,4 +275,4 @@ The combination of cryptographic consent, AI-powered intelligence, and mobile-fi
 
 ---
 
-**Built with ❤️ for the Hushh AI Personal Data Agent Challenge 2024** 
+**Built with ❤️ for the Hushh AI Personal Data Agent Challenge 2025** 
